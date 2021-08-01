@@ -1,11 +1,11 @@
 import React from 'react';
 import { View , Text, StyleSheet } from 'react-native';
-import { string } from 'prop-types';
+import { string, shape } from 'prop-types';
 
 export default function CircleButton(props) {
-  const { children } = props;
+  const { children, style } = props;
   return (
-    <View style={styles.cercleButton}>
+    <View style={[styles.cercleButton, style]}>
       <Text style={styles.circleButtonLabel}>{children}</Text>
     </View>
   );
@@ -13,6 +13,11 @@ export default function CircleButton(props) {
 
 CircleButton.protoType = {
    children: string.isRequired,
+   style: shape(),
+};
+
+CircleButton.defaultProps = {
+  style: null,
 }
 
 const styles = StyleSheet.create({
