@@ -1,5 +1,7 @@
 import React from 'react';
-import { View , ScrollView,  Text , StyleSheet } from 'react-native';
+import {
+  View , ScrollView,  Text , StyleSheet,
+} from 'react-native';
 
 import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
