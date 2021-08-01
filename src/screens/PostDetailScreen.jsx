@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View , ScrollView,  Text , StyleSheet,
+  View , Text , StyleSheet,
 } from 'react-native';
 
 import AppBar from '../components/AppBar';
@@ -11,14 +11,32 @@ export default function PostDetailScreen() {
     <View style={styles.container}>
       <AppBar />
       <View style={styles.postHeader}>
-        <Text style={styles.postTitle}>買い物リスト</Text>
+        <Text style={styles.postTitle}>なにわ男子横アリ募集</Text>
         <Text style={styles.postDate}>2020年12月 10:00</Text>
       </View>
-      <ScrollView style={styles.postBody}>
-        <Text style={styles.postText}>
-          なにわ男子横アリ募集しています。男性の方よろしければいきましょう
-        </Text>
-      </ScrollView>
+
+      {/* ユーザーのプロフィール情報 */}
+      <View style={styles.postBody}>
+        <View style={styles.postBodyImage}></View>
+        <View style={styles.postItemListWrap}>
+             <View style={styles.postItemList}>
+               <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>Name</Text></View>
+               <View style={styles.postItemParper}><Text style={styles.postItemParperText}>みさき</Text></View>
+             </View>
+             <View style={styles.postItemList}>
+               <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>Twitterアカウント</Text></View>
+               <View style={styles.postItemParper}><Text style={styles.postItemParperText}>Akasa_j</Text></View>
+             </View>
+             <View style={styles.postItemList}>
+               <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>自己紹介</Text></View>
+               <View style={styles.postItemParper}><Text style={styles.postItemParperText}>なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！</Text></View>
+             </View>
+             <View style={styles.postItemList}>
+               <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>入っているファンクラブ</Text></View>
+               <View style={styles.postItemParper}><Text style={styles.postItemParperText}>ジャニーズジュニア情報局</Text></View>
+             </View>
+           </View>
+      </View>
       <CircleButton style={{top: 160, bottom: 'auto' }}>★</CircleButton>
     </View>
   );
@@ -48,11 +66,44 @@ const styles = StyleSheet.create({
     lineHeight:16,
   },
   postBody: {
-    paddingVertical: 32,
-    paddingHorizontal: 27,
+    width: 350,
+    marginVertical: 35,
+    marginHorizontal: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.15)',
+    borderRadius: 20,
   },
-  postText: {
-    fontSize: 16,
-    lineHeight: 24,
+  postBodyImage: {
+    backgroundColor: 'gray',
+    width: 300,
+    height: 300,
   },
+  postItemListWrap: {
+    marginTop: 20,
+  },
+  postItemList: {
+    marginBottom: 15,
+  },
+  postItemTitle: {
+    backgroundColor: 'black',
+    alignItems: 'center',
+    borderRadius: 5,
+    width: 160,
+  },
+  postItemTitleText: {
+    color: 'white',
+    fontWeight: 'bold',
+    paddingVertical: 5,
+  },
+  postItemParper: {
+    justifyContent: 'center',
+    marginTop: 5,
+    width: 300,
+  },
+  postItemParperText: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  }
 });
