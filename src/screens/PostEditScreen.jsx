@@ -1,42 +1,47 @@
 import React from 'react';
 import {
-  View ,  StyleSheet, TextInput, Text
+  View ,  StyleSheet, TextInput, Text, ScrollView,
 } from 'react-native';
+//レスポンシブデザインに対応するライブラリ↓
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import AppBar from '../components/AppBar';
-import CircleButton from '../components/CircleButton';
+// import CircleButton from '../components/CircleButton';
+import ImagePickerExample from '../components/ImagePicker';
+import MainButton from '../components/mainButton';
 
 export default function PostEditScreen() {
+
   return (
     <View style={styles.container}>
       <AppBar />
-      <View style={styles.inputWrap}>
-        <Text style={styles.inputStartTitle}>募集してみよう！</Text>
-        <View style={styles.inputTitleWrap}>
-          <Text style={styles.inputTitle}>ニックネーム：</Text>
-          <TextInput style={styles.inputText} value="あかさ" />
-        </View>
-        <View style={styles.inputTitleWrap}>
-          <Text style={styles.inputTitle}>タイトル：</Text>
-          <TextInput style={styles.inputText} value="横アリ募集" />
-        </View>
-        <View style={styles.inputTitleWrap}>
-          <Text style={styles.inputTitle}>グループ名：</Text>
-          <TextInput style={styles.inputText} value="TOKIO" />
-        </View>
-        <View style={styles.inputTitleWrap}>
-          <Text style={styles.inputTitle}>説明：</Text>
-          <TextInput style={styles.inputText} value="募集中です" multiline />
-        </View>
-        <View style={styles.inputTitleWrap}>
-          <Text style={styles.inputTitle}>サムネイル画像：</Text>
-          <TextInput style={styles.inputText} value="https//" />
-        </View>
+        <ScrollView style={styles.inputWrap}>
+          <View style={styles.inputView}>
+            <Text style={styles.inputStartTitle}>募集</Text>
+            <View style={styles.inputTitleWrap}>
+              <Text style={styles.inputTitle}>ニックネーム：</Text>
+              <TextInput style={styles.inputText} value="あかさ" />
+            </View>
+            <View style={styles.inputTitleWrap}>
+              <Text style={styles.inputTitle}>タイトル：</Text>
+              <TextInput style={styles.inputText} value="横アリ募集" />
+            </View>
+            <View style={styles.inputTitleWrap}>
+              <Text style={styles.inputTitle}>グループ名：</Text>
+              <TextInput style={styles.inputText} value="TOKIO" />
+            </View>
+            <View style={styles.inputTitleWrap}>
+              <Text style={styles.inputTitle}>説明：</Text>
+              <TextInput style={styles.inputText} value="募集中です" multiline />
+            </View>
+            <View style={styles.inputTitleWrap}>
+              <Text style={styles.inputTitle}>サムネイル画像：</Text>
+              <ImagePickerExample />
+            </View>
 
-        <View style={styles.postButton}>
-          <Text style={styles.postButtonText}>募　集</Text>
-        </View>
-      </View>
+            <MainButton />
+          </View>
+        </ScrollView>
     </View>
   );
 }
@@ -44,19 +49,26 @@ export default function PostEditScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
   },
   inputWrap: {
-    width: 300,
-    marginVertical: 80,
-    marginHorizontal: 50,
+    width: '100%',  // デバイスの横幅の80%
+  },
+  inputView: {
+    width: '80%',
+    justifyContent: 'center',
+    marginVertical: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   inputStartTitle: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   inputTitleWrap: {
-    marginTop: 20,
+    marginTop: 15,
+    height: hp('10%')
   },
   inputTitle: {
     fontSize: 18,
@@ -64,24 +76,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputText: {
-    paddingVertical: 10,
+    paddingVertical: 7,
     fontSize: 15,
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.15)',
   },
-  postButton: {
-    width: 120,
-    height: 50,
-    backgroundColor: '#E93B81',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginTop: 50,
-    marginHorizontal: 90,
-  },
-  postButtonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  }
 })
