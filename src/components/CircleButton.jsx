@@ -4,10 +4,10 @@ import { string, shape } from 'prop-types';
 import { Feather } from '@expo/vector-icons';
 
 export default function CircleButton(props) {
-  const { children, style } = props;
+  const { name, style } = props;
   return (
     <View style={[styles.cercleButton, style]}>
-      <Feather name="plus" size={32} color="white" />
+      <Feather name={name} size={32} color="white" />
     </View>
   );
 };
