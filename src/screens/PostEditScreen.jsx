@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View ,  StyleSheet, TextInput, Text, ScrollView,
+  View ,  StyleSheet, KeyboardAvoidingView, TextInput, Text, ScrollView,
 } from 'react-native';
 //レスポンシブデザインに対応するライブラリ↓
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -9,11 +9,12 @@ import AppBar from '../components/AppBar';
 // import CircleButton from '../components/CircleButton';
 import ImagePickerExample from '../components/ImagePicker';
 import MainButton from '../components/mainButton';
+import SelectPicker from '../components/SelectPicker';
 
 export default function PostEditScreen() {
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="height">
       <AppBar />
         <ScrollView style={styles.inputWrap}>
           <View style={styles.inputView}>
@@ -28,11 +29,11 @@ export default function PostEditScreen() {
             </View>
             <View style={styles.inputTitleWrap}>
               <Text style={styles.inputTitle}>グループ名：</Text>
-              <TextInput style={styles.inputText} value="TOKIO" />
+              <SelectPicker />
             </View>
             <View style={styles.inputTitleWrap}>
               <Text style={styles.inputTitle}>説明：</Text>
-              <TextInput style={styles.inputText} value="募集中です" multiline />
+              <TextInput style={styles.inputText}multiline />
             </View>
             <View style={styles.inputTitleWrap}>
               <Text style={styles.inputTitle}>サムネイル画像：</Text>
@@ -42,7 +43,7 @@ export default function PostEditScreen() {
             <MainButton />
           </View>
         </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
   },
   inputStartTitle: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
