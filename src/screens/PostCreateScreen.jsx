@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View ,  StyleSheet, KeyboardAvoidingView, TextInput, Text, ScrollView,
+  View ,  StyleSheet, TextInput, Text, ScrollView,
 } from 'react-native';
 //レスポンシブデザインに対応するライブラリ↓
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -10,40 +10,41 @@ import AppBar from '../components/AppBar';
 import ImagePickerExample from '../components/ImagePicker';
 import MainButton from '../components/mainButton';
 import SelectPicker from '../components/SelectPicker';
+import KeyboardSafeView from '../components/KeyboradSafeView'
 
-export default function PostEditScreen() {
+export default function PostCreateScreen() {
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
+    <KeyboardSafeView style={styles.container} behavior="height">
       <AppBar />
         <ScrollView style={styles.inputWrap}>
           <View style={styles.inputView}>
             <Text style={styles.inputStartTitle}>募集</Text>
             <View style={styles.inputTitleWrap}>
-              <Text style={styles.inputTitle}>ニックネーム：</Text>
+              <Text style={styles.inputTitle}>ニックネーム</Text>
               <TextInput style={styles.inputText} value="あかさ" />
             </View>
             <View style={styles.inputTitleWrap}>
-              <Text style={styles.inputTitle}>タイトル：</Text>
+              <Text style={styles.inputTitle}>タイトル</Text>
               <TextInput style={styles.inputText} value="横アリ募集" />
             </View>
             <View style={styles.inputTitleWrap}>
-              <Text style={styles.inputTitle}>グループ名：</Text>
+              <Text style={styles.inputTitle}>グループ名</Text>
               <SelectPicker />
             </View>
             <View style={styles.inputTitleWrap}>
-              <Text style={styles.inputTitle}>説明：</Text>
+              <Text style={styles.inputTitle}>説明</Text>
               <TextInput style={styles.inputText}multiline />
             </View>
             <View style={styles.inputTitleWrap}>
-              <Text style={styles.inputTitle}>サムネイル画像：</Text>
+              <Text style={styles.inputTitle}>サムネイル画像</Text>
               <ImagePickerExample />
             </View>
 
             <MainButton />
           </View>
         </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardSafeView>
   );
 }
 
