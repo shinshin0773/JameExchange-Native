@@ -1,13 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import AppBar from "../components/AppBar";
 import CircleButton from "../components/CircleButton";
 
 export default function PostDetailScreen() {
   return (
     <View style={styles.container}>
-      <AppBar />
       <View style={styles.postHeader}>
         <Text style={styles.postTitle}>なにわ男子横アリ募集</Text>
         <Text style={styles.postDate}>2020年12月 10:00</Text>
@@ -61,7 +59,7 @@ export default function PostDetailScreen() {
       </View>
       <CircleButton
         name="star"
-        style={{ top: 160, bottom: "auto" }}
+        style={{ top: 60, bottom: "auto" }}
       ></CircleButton>
     </View>
   );

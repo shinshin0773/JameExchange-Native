@@ -13,14 +13,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import AppBar from "../components/AppBar";
 import PostItem from "../components/PostItem";
 
 export default function MyProfileScreen() {
   return (
     <View>
-      <AppBar />
-
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.nameWrap}>

@@ -6,17 +6,16 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import AppBar from "../components/AppBar";
 // import CircleButton from '../components/CircleButton';
 import ImagePickerExample from "../components/ImagePicker";
 import MainButton from "../components/mainButton";
 import SelectPicker from "../components/SelectPicker";
 import KeyboardSafeView from "../components/KeyboradSafeView";
 
-export default function PostCreateScreen() {
+export default function PostCreateScreen(props) {
+  const { navigation } = props;
   return (
     <KeyboardSafeView style={styles.container} behavior="height">
-      <AppBar />
       <ScrollView style={styles.inputWrap}>
         <View style={styles.inputView}>
           <Text style={styles.inputStartTitle}>募集</Text>
@@ -41,7 +40,11 @@ export default function PostCreateScreen() {
             <ImagePickerExample />
           </View>
 
-          <MainButton />
+          <MainButton
+            onPress={() => {
+              navigation.navigate("TopScreen");
+            }}
+          />
         </View>
       </ScrollView>
     </KeyboardSafeView>
