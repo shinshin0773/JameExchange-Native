@@ -1,23 +1,23 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import AppBar from '../components/AppBar';
-import PostList from '../components/PostList';
-import CircleButton from '../components/CircleButton';
+import AppBar from "../components/AppBar";
+import PostList from "../components/PostList";
+import CircleButton from "../components/CircleButton";
 
 export default function TopScreen() {
-	return (
-		<View style={styles.container}>
+  return (
+    <View style={styles.container}>
       <AppBar />
       <PostList />
-      <CircleButton>+</CircleButton>
+      <CircleButton name="plus"></CircleButton>
     </View>
-	)
+  );
 }
 
 const styles = StyleSheet.create({
-	container: {
+  container: {
     flex: 1, //画面いっぱいに表示
-    backgroundColor: '#F0F4F8',
+    backgroundColor: "#F0F4F8",
   },
-})
+});

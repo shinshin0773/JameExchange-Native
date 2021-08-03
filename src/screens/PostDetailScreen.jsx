@@ -1,10 +1,8 @@
-import React from 'react';
-import {
-  View , Text , StyleSheet,
-} from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-import AppBar from '../components/AppBar';
-import CircleButton from '../components/CircleButton';
+import AppBar from "../components/AppBar";
+import CircleButton from "../components/CircleButton";
 
 export default function PostDetailScreen() {
   return (
@@ -16,30 +14,55 @@ export default function PostDetailScreen() {
       </View>
 
       <View style={styles.postBodyWrap}>
-          {/* ユーザーのプロフィール情報 */}
+        {/* ユーザーのプロフィール情報 */}
         <View style={styles.postBody}>
           <View style={styles.postBodyImage}></View>
           <View style={styles.postItemListWrap}>
-              <View style={styles.postItemList}>
-                <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>Name</Text></View>
-                <View style={styles.postItemParper}><Text style={styles.postItemParperText}>みさき</Text></View>
+            <View style={styles.postItemList}>
+              <View style={styles.postItemTitle}>
+                <Text style={styles.postItemTitleText}>Name</Text>
               </View>
-              <View style={styles.postItemList}>
-                <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>Twitterアカウント</Text></View>
-                <View style={styles.postItemParper}><Text style={styles.postItemParperText}>Akasa_j</Text></View>
-              </View>
-              <View style={styles.postItemList}>
-                <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>自己紹介</Text></View>
-                <View style={styles.postItemParper}><Text style={styles.postItemParperText}>なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！</Text></View>
-              </View>
-              <View style={styles.postItemList}>
-                <View style={styles.postItemTitle}><Text style={styles.postItemTitleText}>入っているファンクラブ</Text></View>
-                <View style={styles.postItemParper}><Text style={styles.postItemParperText}>ジャニーズジュニア情報局</Text></View>
+              <View style={styles.postItemParper}>
+                <Text style={styles.postItemParperText}>みさき</Text>
               </View>
             </View>
+            <View style={styles.postItemList}>
+              <View style={styles.postItemTitle}>
+                <Text style={styles.postItemTitleText}>Twitterアカウント</Text>
+              </View>
+              <View style={styles.postItemParper}>
+                <Text style={styles.postItemParperText}>Akasa_j</Text>
+              </View>
+            </View>
+            <View style={styles.postItemList}>
+              <View style={styles.postItemTitle}>
+                <Text style={styles.postItemTitleText}>自己紹介</Text>
+              </View>
+              <View style={styles.postItemParper}>
+                <Text style={styles.postItemParperText}>
+                  なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！なにわ男子が大好きです！
+                </Text>
+              </View>
+            </View>
+            <View style={styles.postItemList}>
+              <View style={styles.postItemTitle}>
+                <Text style={styles.postItemTitleText}>
+                  入っているファンクラブ
+                </Text>
+              </View>
+              <View style={styles.postItemParper}>
+                <Text style={styles.postItemParperText}>
+                  ジャニーズジュニア情報局
+                </Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-      <CircleButton name="star" style={{top: 160, bottom: 'auto' }}>★</CircleButton>
+      <CircleButton
+        name="star"
+        style={{ top: 160, bottom: "auto" }}
+      ></CircleButton>
     </View>
   );
 }
@@ -47,28 +70,28 @@ export default function PostDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#ffffff',
+    backgroundColor: "#ffffff",
   },
   postHeader: {
-    backgroundColor: '#467FD3',
+    backgroundColor: "#467FD3",
     height: 96,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingVertical: 24,
     paddingHorizontal: 19,
   },
   postTitle: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 20,
     lineHeight: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   postDate: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 12,
-    lineHeight:16,
+    lineHeight: 16,
   },
   postBodyWrap: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   postBody: {
     width: 350,
@@ -77,11 +100,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.15)',
+    borderColor: "rgba(0, 0, 0, 0.15)",
     borderRadius: 20,
   },
   postBodyImage: {
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
     width: 300,
     height: 300,
   },
@@ -92,23 +115,23 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   postItemTitle: {
-    backgroundColor: 'black',
-    alignItems: 'center',
+    backgroundColor: "black",
+    alignItems: "center",
     borderRadius: 5,
     width: 160,
   },
   postItemTitleText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     paddingVertical: 5,
   },
   postItemParper: {
-    justifyContent: 'center',
+    justifyContent: "center",
     marginTop: 5,
     width: 300,
   },
   postItemParperText: {
     fontSize: 17,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+  },
 });
