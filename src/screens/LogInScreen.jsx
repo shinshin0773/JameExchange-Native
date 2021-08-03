@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,12 +11,35 @@ import Button from "../components/Button";
 
 export default function LogInScreen(props) {
   const { navigation } = props;
+  const [email, setEmail] = useState(""); //email=保持しておきたいデータ・setEmail=値を更新する関数・useState("")=初期値
+  const [password, setPassword] = useState("");
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
         <Text style={styles.title}>LogIn</Text>
-        <TextInput style={styles.input} value="Email Address" />
-        <TextInput style={styles.input} value="Password" />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text); //onChangeTextはイベントが起こった時に発火する関数Email文字を受け取る
+          }}
+          autoCapitalize="none" //最初の文字が大文字じゃなくなる
+          keyboardType="email-address" //メールアドレス入力に適したキーボードに変える
+          placeholder="メールアドレス" //何も入力していない時の文字
+          textContentType="emailAddress" //端末からメールアドレス登録しているメールアドレスを取得できる
+        />
+
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text); //onChangeTextはイベントが起こった時に発火する関数Email文字を受け取る
+          }}
+          placeholder="パスワード" //何も入力していない時の文字
+          secureTextEntry //入力した文字を見せないようにする
+          textContentType="password" //端末からメールアドレス登録しているメールアドレスを取得できる
+        />
 
         <Button
           label="Submit"
