@@ -7,10 +7,10 @@ import {
 } from "react-native-responsive-screen";
 
 export default function MainButton(props) {
-  const { onPress } = props;
+  const { onPress, label, style } = props;
   return (
-    <TouchableOpacity style={styles.postButton} onPress={onPress}>
-      <Text style={styles.postButtonText}>募　集</Text>
+    <TouchableOpacity style={[styles.postButton, style]} onPress={onPress}>
+      <Text style={styles.postButtonText}>{label}</Text>
     </TouchableOpacity>
   );
 }

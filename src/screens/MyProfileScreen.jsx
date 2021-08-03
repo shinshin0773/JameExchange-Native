@@ -8,17 +8,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 //レスポンシブデザインに対応するライブラリ↓
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 
 import PostItem from "../components/PostItem";
 
-export default function MyProfileScreen() {
+export default function MyProfileScreen(props) {
+  const { navigation } = props;
   return (
     <View>
-      <ScrollView>
+      <ScrollView style={styles.backgroundColor}>
         <View style={styles.container}>
           <View style={styles.nameWrap}>
             <TouchableOpacity>
@@ -27,13 +24,19 @@ export default function MyProfileScreen() {
             <View>
               <Text style={styles.nameText}>たんたん</Text>
             </View>
+            <TouchableOpacity
+              style={styles.profileEditBtn}
+              onPress={() => {
+                navigation.navigate("ProfileEdit");
+              }}
+            >
+              <Text style={styles.profileEditText}>プロフィール編集</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.myDiscription}>
-            <TextInput
-              value="自己紹介が入力されていません"
-              style={styles.myDiscriptionInput}
-              multiline
-            />
+            <View style={styles.myDiscriptionInput}>
+              <Text>自己紹介が入力されていません</Text>
+            </View>
           </View>
 
           <View style={styles.myInfoWrap}>
@@ -70,11 +73,13 @@ export default function MyProfileScreen() {
 }
 
 const styles = StyleSheet.create({
+  backgroundColor: {
+    backgroundColor: "white",
+  },
   container: {
     width: "95%",
     marginRight: "auto",
     marginLeft: "auto",
-    backgroundColor: "rgba(0, 0, 0, 0.07)",
   },
   nameWrap: {
     backgroundColor: "white",
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.15)",
     height: 180,
     borderRadius: 15,
-    paddingVertical: 30,
+    paddingVertical: 10,
     paddingHorizontal: 10,
   },
   myInfoWrap: {
@@ -134,6 +139,21 @@ const styles = StyleSheet.create({
   postlistTitle: {
     color: "rgba(0,0,0,0.65)",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  profileEditBtn: {
+    backgroundColor: "#E93B81",
+    width: 120,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 95,
+    marginTop: 10,
+    borderRadius: 15,
+  },
+  profileEditText: {
+    color: "white",
+    fontSize: 14,
     fontWeight: "bold",
   },
 });

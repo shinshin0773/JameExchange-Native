@@ -17,7 +17,7 @@ export default function LogInScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}>LogIn</Text>
+        <Text style={styles.title}></Text>
         <TextInput
           style={styles.input}
           value={email}

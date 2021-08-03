@@ -16,7 +16,7 @@ export default function SignUpScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}>Sign Up</Text>
+        <Text style={styles.title}>新規登録</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -40,7 +40,7 @@ export default function SignUpScreen(props) {
           textContentType="password" //端末からメールアドレス登録しているメールアドレスを取得できる
         />
         <Button
-          label="Submit"
+          label="SignUp"
           onPress={() => {
             navigation.reset({
               index: 0,
@@ -58,7 +58,7 @@ export default function SignUpScreen(props) {
               });
             }}
           >
-            <Text style={styles.footerLink}>Log In.</Text>
+            <Text style={styles.footerLink}>ログイン</Text>
           </TouchableOpacity>
         </View>
       </View>

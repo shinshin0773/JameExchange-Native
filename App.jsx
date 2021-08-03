@@ -11,6 +11,7 @@ import PostCreateScreen from "./src/screens/PostCreateScreen";
 import MyProfileScreen from "./src/screens/MyProfileScreen";
 import LogInScreen from "./src/screens/LogInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
+import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="LogIn"
+        initialRouteName="MyProfileScreen"
         screenOptions={{
           //アップバーのスタイルを変更
           headerStyle: { backgroundColor: "#b69cf0" },
@@ -31,10 +32,18 @@ export default function App() {
           gestureDirection: "horizontal", //水平方向にスライドすると
         }}
       >
-        <Stack.Screen name="TopScreen" component={TopScreen} />
+        <Stack.Screen
+          name="TopScreen"
+          component={TopScreen}
+          options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
+          }}
+        />
         <Stack.Screen name="PostDetail" component={PostDetailScreen} />
         <Stack.Screen name="PostCreate" component={PostCreateScreen} />
         <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
+        <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
         <Stack.Screen
           name="LogIn"
           component={LogInScreen}
