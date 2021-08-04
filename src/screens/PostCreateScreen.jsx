@@ -47,47 +47,64 @@ export default function PostCreateScreen(props) {
         <View style={styles.inputView}>
           <Text style={styles.inputStartTitle}>募集</Text>
           <View style={styles.inputTitleWrap}>
-            <Text style={styles.inputTitle}>ニックネーム</Text>
-            <TextInput
-              style={styles.inputText}
-              value={name}
-              onChangeText={(text) => {
-                setName(text);
-              }}
-              autoFocus //ページが開けたら自動的にキーボードが開ける
-            />
+            <View style={styles.inputTitleWidth}>
+              <Text style={styles.inputTitle}>ニックネーム</Text>
+              <TextInput
+                style={styles.inputText}
+                value={name}
+                onChangeText={(text) => {
+                  setName(text);
+                }}
+                placeholder="未入力"
+                autoFocus //ページが開けたら自動的にキーボードが開ける
+              />
+            </View>
           </View>
           <View style={styles.inputTitleWrap}>
-            <Text style={styles.inputTitle}>タイトル</Text>
-            <TextInput
-              style={styles.inputText}
-              value={title}
-              onChangeText={(text) => {
-                setTitle(text);
-              }}
-            />
+            <View style={styles.inputTitleWidth}>
+              <Text style={styles.inputTitle}>タイトル</Text>
+              <TextInput
+                style={styles.inputText}
+                placeholder="未入力"
+                value={title}
+                onChangeText={(text) => {
+                  setTitle(text);
+                }}
+              />
+            </View>
           </View>
           <View style={styles.inputTitleWrap}>
-            <Text style={styles.inputTitle}>グループ名</Text>
-            <SelectPicker />
+            <View style={styles.inputTitleWidth}>
+              <Text style={styles.inputTitle}>グループ名</Text>
+              <SelectPicker style={{ left: 1, top: 8 }} />
+            </View>
           </View>
-          <View style={styles.inputTitleWrap}>
-            <Text style={styles.inputTitle}>説明</Text>
-            <TextInput
-              style={styles.inputText}
-              multiline
-              value={intro}
-              onChangeText={(text) => {
-                setIntro(text);
-              }}
-            />
+          <View style={styles.inputTitleIntroWrap}>
+            <View style={styles.inputTitleWidth}>
+              <Text style={styles.inputTitle}>説明</Text>
+              <TextInput
+                style={styles.inputTextIntro}
+                placeholder="未入力"
+                multiline
+                value={intro}
+                onChangeText={(text) => {
+                  setIntro(text);
+                }}
+              />
+            </View>
           </View>
-          <View style={styles.inputTitleWrap}>
-            <Text style={styles.inputTitle}>サムネイル画像</Text>
-            <ImagePickerExample />
+          <View style={styles.inputImageWrap}>
+            <View style={styles.inputTitleWidth}>
+              <Text style={styles.inputTitle}>サムネイル画像</Text>
+              <ImagePickerExample />
+            </View>
           </View>
 
-          <MainButton label="募集する" onPress={handlePress} />
+          <MainButton
+            label="募集する"
+            onPress={handlePress}
+            style={{ marginRight: "auto", marginLeft: "auto" }}
+          />
         </View>
       </ScrollView>
     </KeyboardSafeView>
@@ -97,36 +114,67 @@ export default function PostCreateScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-  },
-  inputWrap: {
-    width: "100%", // デバイスの横幅の80%
   },
   inputView: {
-    width: "80%",
-    justifyContent: "center",
-    marginVertical: 30,
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginVertical: 50,
   },
   inputStartTitle: {
-    fontSize: 30,
+    fontSize: 23,
     fontWeight: "bold",
     textAlign: "center",
+    marginBottom: 20,
+    color: "rgba(0,0,0,0.65)",
   },
   inputTitleWrap: {
-    marginTop: 15,
-    height: hp("10%"),
+    height: 65,
+    textAlign: "center",
+    borderTopWidth: 1,
+    borderColor: "rgba(0,0,0,0.24)",
+  },
+  inputTitleIntroWrap: {
+    height: 110,
+    textAlign: "center",
+    borderTopWidth: 1,
+    borderColor: "rgba(0,0,0,0.24)",
+  },
+  inputTitleWidth: {
+    width: "90%",
+    marginRight: "auto",
+    marginLeft: "auto",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 15,
+  },
+  inputImageWrap: {
+    height: 110,
+    textAlign: "center",
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: "rgba(0,0,0,0.24)",
   },
   inputTitle: {
-    fontSize: 18,
+    marginRight: 40,
     fontWeight: "bold",
-    marginBottom: 10,
+    fontSize: 16,
+    width: "33%",
+    color: "rgba(0,0,0,0.65)",
   },
   inputText: {
-    paddingVertical: 7,
-    fontSize: 15,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.15)",
+    borderColor: "rgba(0,0,0,0.24)",
+    width: wp("40%"),
+    height: 30,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  inputTextIntro: {
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.24)",
+    width: wp("45%"),
+    height: 80,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
 });

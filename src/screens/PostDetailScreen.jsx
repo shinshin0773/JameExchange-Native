@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import CircleButton from "../components/CircleButton";
 
@@ -11,7 +11,7 @@ export default function PostDetailScreen() {
         <Text style={styles.postDate}>2020年12月 10:00</Text>
       </View>
 
-      <View style={styles.postBodyWrap}>
+      <ScrollView style={styles.postBodyWrap}>
         {/* ユーザーのプロフィール情報 */}
         <View style={styles.postBody}>
           <View style={styles.postBodyImage}></View>
@@ -56,7 +56,7 @@ export default function PostDetailScreen() {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
       <CircleButton
         name="star"
         style={{ top: 60, bottom: "auto" }}
@@ -88,26 +88,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
-  postBodyWrap: {
-    alignItems: "center",
-  },
   postBody: {
-    width: 350,
-    marginVertical: 35,
-    marginHorizontal: 30,
+    width: 300,
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: "rgba(0, 0, 0, 0.15)",
     borderRadius: 20,
+    marginRight: "auto",
+    marginLeft: "auto",
+    marginVertical: 40,
   },
   postBodyImage: {
     backgroundColor: "gray",
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250,
   },
   postItemListWrap: {
     marginTop: 20,
+    width: 250,
   },
   postItemList: {
     marginBottom: 15,
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
   postItemParper: {
     justifyContent: "center",
     marginTop: 5,
-    width: 300,
+    width: 250,
   },
   postItemParperText: {
     fontSize: 17,

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, Alert } from "react-native";
+import firebase from "firebase";
 
 import CircleButton from "../components/CircleButton";
 import PostItem from "../components/PostItem";
@@ -14,11 +15,35 @@ export default function TopScreen(props) {
     });
   }, []);
 
+  useEffect(() => {
+    const db = firebase.firestore();
+    const { currentUser } = firebase.auth();
+    let unsubscribe = () => {}; //再代入可能なようにする
+    if (currentUser) {
+      const ref = db
+        .collection(`users/${currentUser.uid}/memos`)
+        .orderBy("updatedAt", "desc"); //orderBy('updatedAt','desc') //日付の値が大きいものから返ってくる降順
+      //投稿のリストを取得して一つ一つのログを出力する
+      unsubscribe = ref.onSnapshot(
+        (snapshot) => {
+          snapshot.forEach((doc) => {
+            console.log(doc.id, doc.data());
+          });
+        },
+        (error) => {
+          console.log(error);
+          Alert.alert("データの読み込みに失敗しました");
+        }
+      );
+    }
+    return unsubscribe; //ページを離れる直前に処理を停止する
+  }, []); //画面が表示された瞬間に監視をする
+
   return (
     <View style={styles.container}>
-      <View>
+      <ScrollView>
         <View style={styles.TopListItem}>
-          <ScrollView>
+          <View style={styles.TopListWrap}>
             {/* グループ名のタブのView */}
             <View style={styles.groupNameWrap}>
               <View style={styles.groupCircle}></View>
@@ -45,9 +70,9 @@ export default function TopScreen(props) {
                 navigation.navigate("PostDetail");
               }}
             />
-          </ScrollView>
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       <CircleButton
         name="plus"
@@ -67,12 +92,12 @@ const styles = StyleSheet.create({
   TopListItem: {
     backgroundColor: "#F0F4F8",
     flexDirection: "row",
-    // justifyContent: 'space-between',
-    paddingVertical: 16,
-    paddingHorizontal: 19,
+    width: "95%",
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "rgba(0, 0, 0, 0.15)",
+    marginRight: "auto",
+    marginLeft: "auto",
   },
   memoListItemTitle: {
     fontSize: 16,
@@ -103,45 +128,6 @@ const styles = StyleSheet.create({
   },
   groupNameTitleText: {
     fontSize: 28,
-    fontWeight: "bold",
-  },
-  postImage: {
-    backgroundColor: "gray",
-    width: 300,
-    height: 300,
-  },
-  postItem: {
-    marginTop: 40,
-    marginHorizontal: 30,
-  },
-  postItemListWrap: {
-    marginTop: 20,
-  },
-  postItemList: {
-    flexDirection: "row",
-    marginBottom: 15,
-  },
-  postItemTitle: {
-    backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-    width: 70,
-    height: 30,
-  },
-  postItemTitleText: {
-    color: "white",
-    fontWeight: "bold",
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-  },
-  postItemParper: {
-    justifyContent: "center",
-    marginHorizontal: 15,
-    width: 210,
-  },
-  postItemParperText: {
-    fontSize: 17,
     fontWeight: "bold",
   },
 });

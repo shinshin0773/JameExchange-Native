@@ -17,7 +17,7 @@ import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";
 
-require("firebase/firestore");
+require("firebase/firestore"); //firestoreを使用する
 
 //firebaseが初期化されているかをチェック
 if (firebase.apps.length === 0) {
