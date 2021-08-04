@@ -5,7 +5,9 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import firebase from "firebase";
 
 import Button from "../components/Button";
 
@@ -13,6 +15,26 @@ export default function SignUpScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState(""); //email=保持しておきたいデータ・setEmail=値を更新する関数・useState("")=初期値
   const [password, setPassword] = useState("");
+
+  function handlePress() {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password) //Eメールとパスワードを入れる
+      .then((useCredential) => {
+        //.then新規登録が成功したら
+        const { user } = useCredential; //userの情報を取り出す
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TopScreen" }],
+        });
+      })
+      .catch((error) => {
+        console.log(error.code, error.message);
+        Alert.alert(error.code);
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
@@ -39,15 +61,7 @@ export default function SignUpScreen(props) {
           secureTextEntry //入力した文字を見せないようにする
           textContentType="password" //端末からメールアドレス登録しているメールアドレスを取得できる
         />
-        <Button
-          label="SignUp"
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "TopScreen" }],
-            });
-          }}
-        />
+        <Button label="SignUp" onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>登録したことある?</Text>
           <TouchableOpacity

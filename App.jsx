@@ -4,6 +4,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
+import firebase from "firebase";
 
 import TopScreen from "./src/screens/TopScreen";
 import PostDetailScreen from "./src/screens/PostDetailScreen";
@@ -13,13 +14,21 @@ import LogInScreen from "./src/screens/LogInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 
+//firebaseのmy情報をenv.jsから取得する
+import { firebaseConfig } from "./env";
+
 const Stack = createStackNavigator();
+
+//firebaseが初期化されているかをチェック
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MyProfileScreen"
+        initialRouteName="SignUp"
         screenOptions={{
           //アップバーのスタイルを変更
           headerStyle: { backgroundColor: "#b69cf0" },

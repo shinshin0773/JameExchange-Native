@@ -5,7 +5,9 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import firebase from "firebase";
 
 import Button from "../components/Button";
 
@@ -14,10 +16,27 @@ export default function LogInScreen(props) {
   const [email, setEmail] = useState(""); //email=保持しておきたいデータ・setEmail=値を更新する関数・useState("")=初期値
   const [password, setPassword] = useState("");
 
+  function handlePress() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((useCredentail) => {
+        const { user } = useCredentail; //userの情報を取り出す
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TopScreen" }],
+        });
+      })
+      .catch((error) => {
+        Alert.alert(error.code); //エラーであればエラーコードをアラートする
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}></Text>
+        <Text style={styles.title}>ログイン</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -44,12 +63,7 @@ export default function LogInScreen(props) {
         <Button
           label="Submit"
           // ログイン成功したときに前の履歴を消してBackボタンを表示させなくする
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "TopScreen" }],
-            });
-          }}
+          onPress={handlePress}
         />
 
         <View style={styles.footer}>
