@@ -28,7 +28,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignUp"
+        initialRouteName="LogIn"
         screenOptions={{
           //アップバーのスタイルを変更
           headerStyle: { backgroundColor: "#b69cf0" },

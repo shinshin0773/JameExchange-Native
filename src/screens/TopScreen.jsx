@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 
 import CircleButton from "../components/CircleButton";
 import PostItem from "../components/PostItem";
+import LogOutButton from "../components/LogOutButton";
 
 export default function TopScreen(props) {
   //navigationは自動的にApp.jsxから来ている
   const { navigation } = props;
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />, //ヘッダーの右にログアウトボタンを設定する
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,6 +16,20 @@ export default function LogInScreen(props) {
   const [email, setEmail] = useState(""); //email=保持しておきたいデータ・setEmail=値を更新する関数・useState("")=初期値
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    //ユーザーの情報を監視する
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      //ユーザーがログインしてたら↓の処理を実行する
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TopScreen" }],
+        });
+      }
+    });
+    return unsubscribe; //userの監視状態がキャンセルされる.画面が消える瞬間にreturnが実行される
+  }, []); //[]は画面がマウントされた瞬間その一回だけ処理を実行する
+
   function handlePress() {
     firebase
       .auth()
@@ -23,10 +37,6 @@ export default function LogInScreen(props) {
       .then((useCredentail) => {
         const { user } = useCredentail; //userの情報を取り出す
         console.log(user.uid);
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "TopScreen" }],
-        });
       })
       .catch((error) => {
         Alert.alert(error.code); //エラーであればエラーコードをアラートする
