@@ -17,12 +17,14 @@ import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";
 
-const Stack = createStackNavigator();
+require("firebase/firestore");
 
 //firebaseが初期化されているかをチェック
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
