@@ -6,10 +6,14 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 import { shape, string, instanceOf, arrayOf } from "prop-types";
+//↓データ型を時刻に変更するために使用する
+import { dateToString } from "../utils";
 
 export default function PostItem(props) {
   const { onPress, posts } = props;
+  const navigation = useNavigation();
 
   //効率的にリスト化するための関数
   function renderItem({ item }) {
@@ -17,7 +21,9 @@ export default function PostItem(props) {
       <View>
         <TouchableOpacity
           style={styles.postImage}
-          onPress={onPress}
+          onPress={() => {
+            navigation.navigate("PostDetail", { id: item.id });
+          }}
         ></TouchableOpacity>
 
         {/* 投稿の情報 */}

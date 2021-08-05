@@ -1,14 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { shape, string } from "prop-types";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import firebase from "firebase";
 
 import CircleButton from "../components/CircleButton";
+import { dateToString } from "../utils";
 
-export default function PostDetailScreen() {
+export default function PostDetailScreen(props) {
+  const { route } = props;
+  const { id } = route.params;
+  console.log(id);
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    let unsubscribe = () => {};
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      unsubscribe = ref.onSnapshot((doc) => {
+        console.log(doc.id, doc.data());
+        const data = doc.data();
+        setPost({
+          id: doc.id,
+          postNickName: doc.postNickName,
+          postTitle: data.Title,
+          postNickName: data.nickName,
+          postIntro: data.Intro,
+          updatedAt: data.updatedAt.toDate(), //.toDate()でデータ型に変更
+        });
+      });
+    }
+    return unsubscribe;
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.postHeader}>
-        <Text style={styles.postTitle}>なにわ男子横アリ募集</Text>
-        <Text style={styles.postDate}>2020年12月 10:00</Text>
+        <Text style={styles.postTitle} numberOfLinees={1}>
+          {post && post.postTitle}
+        </Text>
+        <Text style={styles.postDate}>
+          {post && dateToString(post.updatedAt)}
+        </Text>
       </View>
 
       <ScrollView style={styles.postBodyWrap}>
@@ -64,6 +97,12 @@ export default function PostDetailScreen() {
     </View>
   );
 }
+
+PostDetailScreen.propTypes = {
+  route: shape({
+    params: shape({ id: string }),
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -68,9 +68,9 @@ export default function TopScreen(props) {
             {/* PostItem投稿のテンプレート */}
             <PostItem
               posts={posts}
-              onPress={() => {
-                navigation.navigate("PostDetail");
-              }}
+              // onPress={() => {
+              //   navigation.navigate("PostDetail");
+              // }}
             />
           </View>
         </View>
