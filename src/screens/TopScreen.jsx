@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Text, Alert } from "react-native";
 import firebase from "firebase";
 
@@ -9,6 +9,7 @@ import LogOutButton from "../components/LogOutButton";
 export default function TopScreen(props) {
   //navigationは自動的にApp.jsxから来ている
   const { navigation } = props;
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogOutButton />, //ヘッダーの右にログアウトボタンを設定する
@@ -26,9 +27,19 @@ export default function TopScreen(props) {
       //投稿のリストを取得して一つ一つのログを出力する
       unsubscribe = ref.onSnapshot(
         (snapshot) => {
+          const userPosts = [];
           snapshot.forEach((doc) => {
             console.log(doc.id, doc.data());
+            const data = doc.data();
+            userPosts.push({
+              id: doc.id,
+              postTitle: data.Title,
+              postNickName: data.nickName,
+              postIntro: data.Intro,
+              updatedAt: data.updatedAt.toDate(), //.toDate()でデータ型に変更
+            });
           });
+          setPosts(userPosts);
         },
         (error) => {
           console.log(error);
@@ -40,8 +51,8 @@ export default function TopScreen(props) {
   }, []); //画面が表示された瞬間に監視をする
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <ScrollView style={styles.container}>
+      <View>
         <View style={styles.TopListItem}>
           <View style={styles.TopListWrap}>
             {/* グループ名のタブのView */}
@@ -56,23 +67,14 @@ export default function TopScreen(props) {
 
             {/* PostItem投稿のテンプレート */}
             <PostItem
-              onPress={() => {
-                navigation.navigate("PostDetail");
-              }}
-            />
-            <PostItem
-              onPress={() => {
-                navigation.navigate("PostDetail");
-              }}
-            />
-            <PostItem
+              posts={posts}
               onPress={() => {
                 navigation.navigate("PostDetail");
               }}
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
 
       <CircleButton
         name="plus"
@@ -80,7 +82,7 @@ export default function TopScreen(props) {
           navigation.navigate("PostCreate");
         }}
       ></CircleButton>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.15)",
     marginRight: "auto",
     marginLeft: "auto",
+    paddingBottom: 100,
   },
   memoListItemTitle: {
     fontSize: 16,

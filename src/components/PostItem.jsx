@@ -1,49 +1,90 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { shape, string, instanceOf, arrayOf } from "prop-types";
 
 export default function PostItem(props) {
-  const { onPress } = props;
-  return (
-    <View style={styles.postItem}>
-      <TouchableOpacity
-        style={styles.postImage}
-        onPress={onPress}
-      ></TouchableOpacity>
+  const { onPress, posts } = props;
 
-      {/* 投稿の情報 */}
-      <View style={styles.postItemListWrap}>
-        <View style={styles.postItemList}>
-          <View style={styles.postItemTitle}>
-            <Text style={styles.postItemTitleText}>Name</Text>
+  //効率的にリスト化するための関数
+  function renderItem({ item }) {
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.postImage}
+          onPress={onPress}
+        ></TouchableOpacity>
+
+        {/* 投稿の情報 */}
+        <View style={styles.postItemListWrap}>
+          <View style={styles.postItemList}>
+            <View style={styles.postItemTitle}>
+              <Text style={styles.postItemTitleText}>Name</Text>
+            </View>
+            <View style={styles.postItemParper}>
+              {/* numberOfLinesで行を一行に指定できる */}
+              <Text style={styles.postItemParperText} numberOfLines={1}>
+                {/* ここでデータを表示している */}
+                {item.postNickName}
+              </Text>
+            </View>
           </View>
-          <View style={styles.postItemParper}>
-            <Text style={styles.postItemParperText}>みさき</Text>
+          <View style={styles.postItemList}>
+            <View style={styles.postItemTitle}>
+              <Text style={styles.postItemTitleText}>Title</Text>
+            </View>
+            <View style={styles.postItemParper}>
+              <Text style={styles.postItemParperText}>
+                {/* ここでデータを表示している */}
+                {item.postTitle}
+              </Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.postItemList}>
-          <View style={styles.postItemTitle}>
-            <Text style={styles.postItemTitleText}>Title</Text>
-          </View>
-          <View style={styles.postItemParper}>
-            <Text style={styles.postItemParperText}>なにわ横アリ募集</Text>
-          </View>
-        </View>
-        <View style={styles.postItemList}>
-          <View style={styles.postItemTitle}>
-            <Text style={styles.postItemTitleText}>内容</Text>
-          </View>
-          <View style={styles.postItemParper}>
-            <Text style={styles.postItemParperText}>
-              なにわ男子Alina tour、札幌アリーナでの
-              9/11、9/12のチケット、どの時間帯でも良いので、お譲りいただける方は
-              よろしくお願いいたします。
-            </Text>
+          <View style={styles.postItemList}>
+            <View style={styles.postItemTitle}>
+              <Text style={styles.postItemTitleText}>内容</Text>
+            </View>
+            <View style={styles.postItemParper}>
+              <Text style={styles.postItemParperText}>
+                {/* ここでデータを表示している */}
+                {item.postIntro}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.postItem}>
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keExtractor={(item) => {
+          return item.id;
+        }}
+      />
     </View>
   );
 }
+
+PostItem.protoTypes = {
+  memos: arrayOf(
+    shape({
+      id: string,
+      postNickName: string,
+      postTitle: string,
+      postIntro: string,
+      updatedAt: instanceOf(Date),
+    }).isRequired
+  ),
+};
 
 const styles = StyleSheet.create({
   postImage: {
@@ -54,6 +95,7 @@ const styles = StyleSheet.create({
   postItem: {
     marginTop: 40,
     marginHorizontal: 30,
+    // width: "120%",
   },
   postItemListWrap: {
     marginTop: 20,
