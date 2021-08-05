@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
+import firebase from "firebase";
 
 import MainButton from "../components/mainButton";
 import CircleButton from "../components/CircleButton";
@@ -21,6 +22,28 @@ export default function ProfileEditScreen(props) {
   const [Twitter, setTwitter] = useState("");
   const [Intro, setIntro] = useState("");
   const image = require("../../assets/kinki.jpg");
+
+  //データをfirestoreに保存する
+  function handlePress() {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    const ref = db.collection(`users/${currentUser.uid}/profiles`);
+    ref
+      .add({
+        Name: Name,
+        TwitterId: Twitter,
+        Intro: Intro,
+        updatedAt: new Date(),
+      })
+      .then((docRef) => {
+        console.log("Edit!", docRef.id);
+      })
+      .catch((error) => {
+        console.log("Error!", error);
+      });
+    navigation.navigate("MyProfileScreen");
+  }
+
   return (
     <ScrollView>
       <ImageBackground
@@ -83,12 +106,7 @@ export default function ProfileEditScreen(props) {
         <MainButton
           label="プロフィールを保存"
           style={{ width: 200 }}
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "TopScreen" }],
-            });
-          }}
+          onPress={handlePress}
         />
       </View>
 

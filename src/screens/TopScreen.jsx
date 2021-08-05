@@ -5,6 +5,7 @@ import firebase from "firebase";
 import CircleButton from "../components/CircleButton";
 import PostItem from "../components/PostItem";
 import LogOutButton from "../components/LogOutButton";
+import MainButton from "../components/mainButton";
 
 export default function TopScreen(props) {
   //navigationは自動的にApp.jsxから来ている
@@ -51,8 +52,14 @@ export default function TopScreen(props) {
   }, []); //画面が表示された瞬間に監視をする
 
   return (
-    <ScrollView style={styles.container}>
-      <View>
+    <View style={styles.container}>
+      <MainButton
+        label="プロフィール画面へ"
+        onPress={() => {
+          navigation.navigate("MyProfileScreen");
+        }}
+      />
+      <ScrollView>
         <View style={styles.TopListItem}>
           <View style={styles.TopListWrap}>
             {/* グループ名のタブのView */}
@@ -66,23 +73,17 @@ export default function TopScreen(props) {
             </View>
 
             {/* PostItem投稿のテンプレート */}
-            <PostItem
-              posts={posts}
-              // onPress={() => {
-              //   navigation.navigate("PostDetail");
-              // }}
-            />
+            <PostItem posts={posts} />
           </View>
         </View>
-      </View>
-
+      </ScrollView>
       <CircleButton
         name="plus"
         onPress={() => {
           navigation.navigate("PostCreate");
         }}
       ></CircleButton>
-    </ScrollView>
+    </View>
   );
 }
 

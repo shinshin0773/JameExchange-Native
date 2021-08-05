@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
   postItem: {
     marginTop: 40,
     marginHorizontal: 30,
-    // width: "120%",
+    // // width: "120%",
+    // paddingBottom: 600,
   },
   postItemListWrap: {
     marginTop: 20,

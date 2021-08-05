@@ -13,6 +13,7 @@ import MyProfileScreen from "./src/screens/MyProfileScreen";
 import LogInScreen from "./src/screens/LogInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ProfileEditScreen from "./src/screens/ProfileEditScreen";
+import ProfileCreateScreen from "./src/screens/ProfileCreate";
 
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";
@@ -55,6 +56,7 @@ export default function App() {
         <Stack.Screen name="PostCreate" component={PostCreateScreen} />
         <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
         <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
+        <Stack.Screen name="ProfileCreate" component={ProfileCreateScreen} />
         <Stack.Screen
           name="LogIn"
           component={LogInScreen}
@@ -63,14 +65,7 @@ export default function App() {
               CardStyleInterpolators.forFadeFromBottomAndroid, //ログインとサインアップページの遷移だけAndroidを採用
           }}
         />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid, //ログインとサインアップページの遷移だけAndroidを採用
-          }}
-        />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
