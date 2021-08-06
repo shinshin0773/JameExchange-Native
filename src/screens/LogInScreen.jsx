@@ -10,11 +10,13 @@ import {
 import firebase from "firebase";
 
 import Button from "../components/Button";
+import Loading from "../components/Loading";
 
 export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState(""); //email=保持しておきたいデータ・setEmail=値を更新する関数・useState("")=初期値
   const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     //ユーザーの情報を監視する
@@ -25,12 +27,15 @@ export default function LogInScreen(props) {
           index: 0,
           routes: [{ name: "TopScreen" }],
         });
+      } else {
+        setLoading(false);
       }
     });
     return unsubscribe; //userの監視状態がキャンセルされる.画面が消える瞬間にreturnが実行される
   }, []); //[]は画面がマウントされた瞬間その一回だけ処理を実行する
 
   function handlePress() {
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -40,11 +45,15 @@ export default function LogInScreen(props) {
       })
       .catch((error) => {
         Alert.alert(error.code); //エラーであればエラーコードをアラートする
+      })
+      .then(() => {
+        setLoading(false); //成功した場合も失敗した場合も適応する処理
       });
   }
 
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading} />
       <View style={styles.inner}>
         <Text style={styles.title}>ログイン</Text>
         <TextInput
