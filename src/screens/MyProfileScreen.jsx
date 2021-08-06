@@ -52,9 +52,9 @@ export default function MyProfileScreen(props) {
   }, []); //画面が表示された瞬間に監視をする
 
   return (
-    <View>
+    <View style={styles.container}>
       <ScrollView style={styles.backgroundColor}>
-        <View style={styles.container}>
+        <View>
           <MyProfileComponents profile={profile} />
         </View>
       </ScrollView>
@@ -65,5 +65,8 @@ export default function MyProfileScreen(props) {
 const styles = StyleSheet.create({
   backgroundColor: {
     backgroundColor: "white",
+  },
+  container: {
+    flex: 1,
   },
 });

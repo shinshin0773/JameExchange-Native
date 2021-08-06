@@ -27,7 +27,7 @@ export default function MyProfileComponents(props) {
           <TouchableOpacity>
             <View style={styles.nameIcon}></View>
           </TouchableOpacity>
-          <View>
+          <View style={styles.nameInner}>
             <Text style={styles.nameText}>{item.profileName}</Text>
           </View>
           <TouchableOpacity
@@ -157,6 +157,9 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     backgroundColor: "gray",
+  },
+  nameInner: {
+    flex: 1, //可能な限りスペースを確保する
   },
   nameText: {
     fontSize: 18,

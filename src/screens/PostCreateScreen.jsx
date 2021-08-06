@@ -12,6 +12,7 @@ import ImagePickerExample from "../components/ImagePicker";
 import MainButton from "../components/mainButton";
 import SelectPicker from "../components/SelectPicker";
 import KeyboardSafeView from "../components/KeyboradSafeView";
+import { translateErrors } from "../utils";
 
 export default function PostCreateScreen(props) {
   const { navigation } = props;
@@ -37,6 +38,8 @@ export default function PostCreateScreen(props) {
       })
       .catch((error) => {
         console.log("Error!", error);
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       });
     navigation.navigate("TopScreen");
   }
