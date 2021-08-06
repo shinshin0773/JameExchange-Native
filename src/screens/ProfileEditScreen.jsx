@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Alert,
 } from "react-native";
+import { shape, string } from "prop-types";
 import firebase from "firebase";
 
 import MainButton from "../components/mainButton";
@@ -17,31 +19,37 @@ import ImagePickerExample from "../components/ImagePicker";
 import ImagePickerCircle from "../components/ImagePickerCircle";
 
 export default function ProfileEditScreen(props) {
-  const { navigation } = props;
-  const [Name, setName] = useState("");
-  const [Twitter, setTwitter] = useState("");
-  const [Intro, setIntro] = useState("");
+  const { navigation, route } = props;
+  const { id, name, intro, twitterId } = route.params; //MyprofileComponetsからidなどを取得している
+  const [Name, setName] = useState(name);
+  const [Twitter, setTwitter] = useState(twitterId);
+  const [Intro, setIntro] = useState(intro);
   const image = require("../../assets/kinki.jpg");
 
   //データをfirestoreに保存する
   function handlePress() {
     const { currentUser } = firebase.auth();
-    const db = firebase.firestore();
-    const ref = db.collection(`users/${currentUser.uid}/profiles`);
-    ref
-      .add({
-        Name: Name,
-        TwitterId: Twitter,
-        Intro: Intro,
-        updatedAt: new Date(),
-      })
-      .then((docRef) => {
-        console.log("Edit!", docRef.id);
-      })
-      .catch((error) => {
-        console.log("Error!", error);
-      });
-    navigation.navigate("MyProfileScreen");
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/profiles`).doc(id);
+      ref
+        .set(
+          {
+            //.setを使うことで上書きすることができる
+            Name: Name,
+            TwitterId: Twitter,
+            Intro: Intro,
+            updatedAt: new Date(),
+          },
+          { merge: true }
+        ) //merge: true はreatedAtを残したい時
+        .then(() => {
+          navigation.goBack(); //前の画面に戻る
+        })
+        .catch((error) => {
+          Alert.alert(error.code);
+        });
+    }
   }
 
   return (
@@ -59,33 +67,36 @@ export default function ProfileEditScreen(props) {
           <Text style={styles.editListText}>Name</Text>
           <TextInput
             style={styles.editInput}
+            value={Name}
             onChangeText={(text) => {
               setName(text); //onChangeTextはイベントが起こった時に発火する関数Email文字を受け取る
             }}
             autoCapitalize="none" //最初の文字が大文字じゃなくなる
-            placeholder="ニックネーム" //何も入力していない時の文字
+            // placeholder="ニックネーム" //何も入力していない時の文字
           />
         </View>
         <View style={styles.editListWrap}>
           <Text style={styles.editListText}>TwitterアカウントID</Text>
           <TextInput
             style={styles.editInput}
+            value={Twitter}
             onChangeText={(text) => {
               setTwitter(text); //onChangeTextはイベントが起こった時に発火する関数Email文字を受け取る
             }}
             autoCapitalize="none" //最初の文字が大文字じゃなくなる
-            placeholder="NaniwaChan728" //何も入力していない時の文字
+            // placeholder="NaniwaChan728" //何も入力していない時の文字
           />
         </View>
         <View style={styles.editListWrap}>
           <Text style={styles.editListText}>自己紹介</Text>
           <TextInput
             style={styles.editInput}
+            value={Intro}
             onChangeText={(text) => {
               setIntro(text); //onChangeTextはイベントが起こった時に発火する関数Email文字を受け取る
             }}
             autoCapitalize="none" //最初の文字が大文字じゃなくなる
-            placeholder="なにわ男子が大好きです" //何も入力していない時の文字
+            // placeholder="なにわ男子が大好きです" //何も入力していない時の文字
           />
         </View>
         <View style={styles.editSelect}>
@@ -118,6 +129,17 @@ export default function ProfileEditScreen(props) {
     </ScrollView>
   );
 }
+
+ProfileEditScreen.propTypes = {
+  route: shape({
+    params: shape({
+      id: string,
+      name: string,
+      intro: string,
+      twitterId: string,
+    }),
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   iconWrap: {

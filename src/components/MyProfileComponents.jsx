@@ -33,7 +33,12 @@ export default function MyProfileComponents(props) {
           <TouchableOpacity
             style={styles.profileEditBtn}
             onPress={() => {
-              navigation.navigate("ProfileEdit");
+              navigation.navigate("ProfileEdit", {
+                id: item.id,
+                name: item.profileName,
+                intro: item.profileIntro,
+                twitterId: item.profileTwitter,
+              });
             }}
           >
             <Text style={styles.profileEditText}>プロフィール編集</Text>

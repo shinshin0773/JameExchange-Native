@@ -24,11 +24,12 @@ export default function MyProfileScreen(props) {
       const ref = db
         .collection(`users/${currentUser.uid}/profiles`)
         .orderBy("updatedAt", "desc"); //orderBy('updatedAt','desc') //日付の値が大きいものから返ってくる降順
-      //投稿のリストを取得して一つ一つのログを出力する
+      //onSnapshot-自動的に監視する
       unsubscribe = ref.onSnapshot(
         (snapshot) => {
           const userProfiles = [];
           snapshot.forEach((doc) => {
+            console.log(`${doc.id}これです`);
             console.log(doc.id, doc.data());
             const data = doc.data();
             userProfiles.push({
