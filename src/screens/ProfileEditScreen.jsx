@@ -17,6 +17,7 @@ import CircleButton from "../components/CircleButton";
 import SelectPicker from "../components/SelectPicker";
 import ImagePickerExample from "../components/ImagePicker";
 import ImagePickerCircle from "../components/ImagePickerCircle";
+import { translateErrors } from "../utils";
 
 export default function ProfileEditScreen(props) {
   const { navigation, route } = props;
@@ -47,7 +48,8 @@ export default function ProfileEditScreen(props) {
           navigation.goBack(); //前の画面に戻る
         })
         .catch((error) => {
-          Alert.alert(error.code);
+          const errorMsg = translateErrors(error.code);
+          Alert.alert(errorMsg.title, errorMsg.description);
         });
     }
   }

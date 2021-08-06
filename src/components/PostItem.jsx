@@ -5,15 +5,41 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { shape, string, instanceOf, arrayOf } from "prop-types";
+import firebase from "firebase";
 //↓データ型を時刻に変更するために使用する
 import { dateToString } from "../utils";
 
 export default function PostItem(props) {
   const { onPress, posts } = props;
   const navigation = useNavigation();
+
+  function dletePost(id) {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      Alert.alert("投稿を削除します", "よろしいですか？", [
+        {
+          text: "キャンセル",
+          onPress: () => {},
+        },
+        {
+          text: "削除する",
+          style: "destructive", //文字が赤くなる
+          onPress: () => {
+            //投稿を削除する
+            ref.delete().catch(() => {
+              Alert.alert("削除に失敗しました");
+            });
+          },
+        },
+      ]);
+    }
+  }
 
   //効率的にリスト化するための関数
   function renderItem({ item }) {
@@ -61,6 +87,13 @@ export default function PostItem(props) {
                 {item.postIntro}
               </Text>
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                dletePost(item.id);
+              }}
+            >
+              <Text>削除</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

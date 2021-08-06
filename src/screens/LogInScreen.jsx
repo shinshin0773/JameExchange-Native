@@ -11,6 +11,7 @@ import firebase from "firebase";
 
 import Button from "../components/Button";
 import Loading from "../components/Loading";
+import { translateErrors } from "../utils";
 
 export default function LogInScreen(props) {
   const { navigation } = props;
@@ -44,7 +45,8 @@ export default function LogInScreen(props) {
         console.log(user.uid);
       })
       .catch((error) => {
-        Alert.alert(error.code); //エラーであればエラーコードをアラートする
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       })
       .then(() => {
         setLoading(false); //成功した場合も失敗した場合も適応する処理
