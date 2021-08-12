@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Image, View, Platform, StyleSheet } from "react-native";
+import { Button, Image, View, Platform, StyleSheet,Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import firebase from "firebase";
 
 export default function ImagePickerExample() {
   const [image, setImage] = useState(null);
+  const [imageUploadTime, setImageUploadTime] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -17,6 +19,18 @@ export default function ImagePickerExample() {
     })();
   }, []);
 
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      fetchUrl(currentUser.uid)
+    }
+  }, [imageUploadTime]);
+
+  async function fetchUrl(uid) {
+    const url = await firebase.storage().ref().child(`users/${uid}/images/test-app-image`).getDownloadURL();
+    setImage(url);
+  }
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -25,12 +39,25 @@ export default function ImagePickerExample() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      setImage(result.uri);
+      uploadImage(result.uri, 'test-app-image')
+        .then(() => {
+          Alert.alert('Done!');
+          setImageUploadTime(String(new Date()));
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        })
     }
   };
+
+  async function uploadImage(uri,imageName) {
+    const {currentUser} = firebase.auth();
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref = firebase.storage().ref().child(`users/${currentUser.uid}/images/${imageName}`);
+    return ref.put(blob);
+  }
 
   return (
     <View style={styles.imageWrap}>

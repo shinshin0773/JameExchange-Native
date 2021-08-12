@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.2.1",
+    "@react-native-community/checkbox": "^0.5.8",
     "@react-native-picker/picker": "1.16.1",
+    "@react-navigation/bottom-tabs": "^6.0.3",
+    "@react-navigation/drawer": "^6.1.1",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "date-fns": "^2.16.1",
@@ -21,7 +24,9 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-paper": "^4.9.2",
     "react-native-picker-select": "^8.0.4",
     "react-native-reanimated": "~2.2.0",
     "react-native-responsive-screen": "^1.4.2",
@@ -36,7 +41,8 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "~4.0.0"
   },
   "private": true
 }

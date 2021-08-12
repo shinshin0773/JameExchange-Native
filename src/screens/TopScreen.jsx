@@ -27,7 +27,7 @@ export default function TopScreen(props) {
     if (currentUser) {
       setLoading(true); //ローディングする
       const ref = db
-        .collection(`users/${currentUser.uid}/memos`)
+        .collection(`home/users/posts`)
         .orderBy("updatedAt", "desc"); //orderBy('updatedAt','desc') //日付の値が大きいものから返ってくる降順
       //投稿のリストを取得して一つ一つのログを出力する
       unsubscribe = ref.onSnapshot(
@@ -38,9 +38,11 @@ export default function TopScreen(props) {
             const data = doc.data();
             userPosts.push({
               id: doc.id,
+              uid: data.uid,
               postTitle: data.Title,
               postNickName: data.nickName,
               postIntro: data.Intro,
+              postGroup: data.group,
               updatedAt: data.updatedAt.toDate(), //.toDate()でデータ型に変更
             });
           });
@@ -78,13 +80,13 @@ export default function TopScreen(props) {
 
   return (
     <View style={styles.container}>
-      <MainButton
-        label="プロフィール画面へ"
-        onPress={() => {
-          navigation.navigate("MyProfileScreen");
-        }}
-      />
       <ScrollView>
+        <MainButton
+          label="プロフィール"
+          onPress={() => {
+            navigation.navigate("MyProfileScreen");
+          }}
+        />
         <View style={styles.TopListItem}>
           <View style={styles.TopListWrap}>
             {/* グループ名のタブのView */}
@@ -98,7 +100,7 @@ export default function TopScreen(props) {
             </View>
 
             {/* PostItem投稿のテンプレート */}
-            <PostItem posts={posts} />
+            <PostItem posts={posts} style={{ display: "none" }} />
           </View>
         </View>
       </ScrollView>

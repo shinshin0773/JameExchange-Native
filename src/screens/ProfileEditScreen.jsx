@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,15 +8,18 @@ import {
   ScrollView,
   ImageBackground,
   Alert,
+  Button,
+  Image,
+  Platform
 } from "react-native";
 import { shape, string } from "prop-types";
 import firebase from "firebase";
 
 import MainButton from "../components/mainButton";
-import CircleButton from "../components/CircleButton";
 import SelectPicker from "../components/SelectPicker";
-import ImagePickerExample from "../components/ImagePicker";
 import ImagePickerCircle from "../components/ImagePickerCircle";
+
+import * as ImagePicker from "expo-image-picker";
 
 export default function ProfileEditScreen(props) {
   const { navigation, route } = props;
@@ -24,14 +27,72 @@ export default function ProfileEditScreen(props) {
   const [Name, setName] = useState(name);
   const [Twitter, setTwitter] = useState(twitterId);
   const [Intro, setIntro] = useState(intro);
-  const image = require("../../assets/kinki.jpg");
+  const Bacimage = require("../../assets/kinki.jpg");
+
+  const [image, setImage] = useState(null);
+  const [imageUploadTime, setImageUploadTime] = useState(null);
+
+  //imagePicker関連の処理
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      fetchUrl(currentUser.uid)
+    }
+  }, [imageUploadTime]);
+
+  async function fetchUrl(uid) {
+    const url = await firebase.storage().ref().child(`users/${uid}/profileImage`).getDownloadURL();
+    setImage(url);
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      uploadImage(result.uri, 'test-app-image')
+        .then(() => {
+          Alert.alert('Done!');
+          setImageUploadTime(String(new Date()));
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        })
+    }
+  };
+
+  async function uploadImage(uri,imageName) {
+    const {currentUser} = firebase.auth();
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref = firebase.storage().ref().child(`users/${currentUser.uid}/profileImage`);
+    return ref.put(blob);
+  }
 
   //データをfirestoreに保存する
   function handlePress() {
     const { currentUser } = firebase.auth();
     if (currentUser) {
       const db = firebase.firestore();
-      const ref = db.collection(`users/${currentUser.uid}/profiles`).doc(id);
+      const ref = db
+        .collection(`home/users/profiles/userIds/${currentUser.uid}`)
+        .doc(id);
       ref
         .set(
           {
@@ -39,6 +100,7 @@ export default function ProfileEditScreen(props) {
             Name: Name,
             TwitterId: Twitter,
             Intro: Intro,
+            ImageUrl: image,
             updatedAt: new Date(),
           },
           { merge: true }
@@ -55,11 +117,12 @@ export default function ProfileEditScreen(props) {
   return (
     <ScrollView>
       <ImageBackground
-        source={image}
+        source={Bacimage}
         resizeMode="cover"
         style={styles.iconWrap}
       >
-        <View style={styles.icon}></View>
+        {/* <View style={styles.icon}></View> */}
+        <Image source={{ uri: image }} style={{ width: 150, height: 150, borderRadius: 150, }} />
       </ImageBackground>
 
       <View style={styles.editWrap}>
@@ -109,7 +172,17 @@ export default function ProfileEditScreen(props) {
           <Text style={styles.editImageText}>
             プロフィール画像を選んでください
           </Text>
-          <ImagePickerExample />
+
+            {/* imagePicker関連のコンポーネント */}
+           <View style={styles.imageWrap}>
+            <View style={styles.imageButton}>
+              <Button title="写真を選択" onPress={pickImage}></Button>
+            </View>
+            {image && (
+              <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />
+            )}
+           </View>
+
         </View>
       </View>
 
@@ -125,7 +198,7 @@ export default function ProfileEditScreen(props) {
         name="plus"
         style={{ top: 130, right: 125, backgroundColor: "red" }}
       /> */}
-      <ImagePickerCircle name="plus" />
+      <ImagePickerCircle name="plus"/>
     </ScrollView>
   );
 }
@@ -212,5 +285,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "pink",
     marginBottom: 3,
+  },
+  imageWrap: {
+    flexDirection: "row",
+  },
+  imageButton: {
+    width: 100,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#b6c9f0",
+    justifyContent: "center",
+    marginRight: 15,
   },
 });

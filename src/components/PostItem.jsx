@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -10,19 +10,19 @@ import {
 import { useNavigation } from "@react-navigation/core";
 import { shape, string, instanceOf, arrayOf } from "prop-types";
 import firebase from "firebase";
-//↓データ型を時刻に変更するために使用する
-import { dateToString } from "../utils";
 
 export default function PostItem(props) {
-  const { onPress, posts } = props;
+  const { onPress, posts, myPosts, postsIf, style, userUid } = props;
   const navigation = useNavigation();
 
-  function dletePost(id) {
-    const { currentUser } = firebase.auth();
-    if (currentUser) {
+  //効率的にリスト化するための関数
+  function renderItem({ item }) {
+    function dletePost() {
+      // console.log(currentUser.uid, uid);
       const db = firebase.firestore();
-      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
-      Alert.alert("投稿を削除します", "よろしいですか？", [
+      const ref = db.collection(`home/users/posts`).doc(item.id);
+
+      return Alert.alert("投稿を削除します", "よろしいですか？", [
         {
           text: "キャンセル",
           onPress: () => {},
@@ -39,10 +39,7 @@ export default function PostItem(props) {
         },
       ]);
     }
-  }
 
-  //効率的にリスト化するための関数
-  function renderItem({ item }) {
     return (
       <View>
         <TouchableOpacity
@@ -87,14 +84,15 @@ export default function PostItem(props) {
                 {item.postIntro}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                dletePost(item.id);
-              }}
-            >
-              <Text>削除</Text>
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              dletePost();
+            }}
+            style={[styles.deleteBtn, style]}
+          >
+            <Text style={styles.deleteText}>{`${postsIf ? "削除" : ""}`}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -109,6 +107,13 @@ export default function PostItem(props) {
           return item.id;
         }}
       />
+      <FlatList
+        data={myPosts}
+        renderItem={renderItem}
+        keExtractor={(item) => {
+          return item.id;
+        }}
+      />
     </View>
   );
 }
@@ -117,6 +122,7 @@ PostItem.protoTypes = {
   memos: arrayOf(
     shape({
       id: string,
+      uid: string,
       postNickName: string,
       postTitle: string,
       postIntro: string,
@@ -165,6 +171,20 @@ const styles = StyleSheet.create({
   },
   postItemParperText: {
     fontSize: 17,
+    fontWeight: "bold",
+  },
+  deleteBtn: {
+    width: 60,
+    height: 30,
+    borderRadius: 8,
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 40,
+  },
+  deleteText: {
+    fontSize: 18,
+    color: "white",
     fontWeight: "bold",
   },
 });

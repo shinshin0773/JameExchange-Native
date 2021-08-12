@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 //レスポンシブデザインに対応するライブラリ↓
 import firebase from "firebase";
@@ -16,8 +17,8 @@ import PostItem from "../components/PostItem";
 import { shape, string, instanceOf, arrayOf } from "prop-types";
 
 export default function MyProfileComponents(props) {
-  const { profile } = props;
-  const [posts, setPosts] = useState([]);
+  const { profile, myPosts } = props;
+  const [posts, setPosts] = useState([]); //ここを変更する
   const navigation = useNavigation();
 
   function renderItem({ item }) {
@@ -25,7 +26,7 @@ export default function MyProfileComponents(props) {
       <View>
         <View style={styles.nameWrap}>
           <TouchableOpacity>
-            <View style={styles.nameIcon}></View>
+            <Image source={{ uri: item.profileImageUrl }} style={{ width: 60, height: 60, borderRadius: 30, }} />
           </TouchableOpacity>
           <View style={styles.nameInner}>
             <Text style={styles.nameText}>{item.profileName}</Text>
@@ -38,6 +39,7 @@ export default function MyProfileComponents(props) {
                 name: item.profileName,
                 intro: item.profileIntro,
                 twitterId: item.profileTwitter,
+                imageUrl: item.profileImageUrl,
               });
             }}
           >
@@ -74,7 +76,7 @@ export default function MyProfileComponents(props) {
         <View style={styles.postListWrap}>
           <Text style={styles.postlistTitle}>投稿一覧</Text>
           <View>
-            <PostItem posts={posts} />
+            <PostItem myPosts={myPosts} postsIf={true} />
           </View>
         </View>
       </View>
@@ -88,17 +90,17 @@ export default function MyProfileComponents(props) {
     let unsubscribe = () => {}; //再代入可能なようにする
     if (currentUser) {
       const ref = db
-        .collection(`users/${currentUser.uid}/memos`)
+        .collection(`home/users/posts`)
         .orderBy("updatedAt", "desc"); //orderBy('updatedAt','desc') //日付の値が大きいものから返ってくる降順
       //投稿のリストを取得して一つ一つのログを出力する
       unsubscribe = ref.onSnapshot(
         (snapshot) => {
           const userPosts = [];
           snapshot.forEach((doc) => {
-            console.log(doc.id, doc.data());
             const data = doc.data();
             userPosts.push({
               id: doc.id,
+              uid: currentUser.uid,
               postTitle: data.Title,
               postNickName: data.nickName,
               postIntro: data.Intro,
@@ -108,7 +110,7 @@ export default function MyProfileComponents(props) {
           setPosts(userPosts);
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           Alert.alert("データの読み込みに失敗しました");
         }
       );
@@ -133,9 +135,20 @@ MyProfileComponents.propTypes = {
   profile: arrayOf(
     shape({
       id: string,
-      Name: string,
-      TwitterId: string,
+      uid: string,
+      postTitle: string,
+      postNickName: string,
+      postIntro: string,
+      updatedAt: instanceOf(Date),
+    })
+  ).isRequired,
+
+  profile: arrayOf(
+    shape({
+      nickName: string,
+      Title: string,
       Intro: string,
+      uid: string,
       updatedAt: instanceOf(Date),
     })
   ).isRequired,

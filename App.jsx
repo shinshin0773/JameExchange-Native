@@ -15,6 +15,7 @@ import LogInScreen from "./src/screens/LogInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 import ProfileCreateScreen from "./src/screens/ProfileCreate";
+import BottomTab from "./src/components/BottomTab";
 
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";
@@ -27,8 +28,13 @@ if (firebase.apps.length === 0) {
 }
 
 const Stack = createStackNavigator();
+
+//エラーのログを一旦無くしている
 LogBox.ignoreLogs([
   "should never be nested inside plain ScrollViews with the same orientation",
+]);
+LogBox.ignoreLogs([
+  "A VirtualizedList contains a cell which itself contains more than one VirtualizedList of the same orientation as the parent list. You must pass a unique listKey prop to each sibling list.",
 ]);
 
 export default function App() {

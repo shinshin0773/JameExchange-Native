@@ -19,6 +19,7 @@ export default function LogInScreen(props) {
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(true);
 
+  //ログインスクリーンが表示された時にユーザーが存在していれば自動的に画面遷移する
   useEffect(() => {
     //ユーザーの情報を監視する
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -42,7 +43,6 @@ export default function LogInScreen(props) {
       .signInWithEmailAndPassword(email, password)
       .then((useCredentail) => {
         const { user } = useCredentail; //userの情報を取り出す
-        console.log(user.uid);
       })
       .catch((error) => {
         const errorMsg = translateErrors(error.code);

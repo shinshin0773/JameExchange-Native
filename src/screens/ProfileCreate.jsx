@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, TextInput, Text } from "react-native";
 import firebase from "firebase";
 
 import Button from "../components/Button";
@@ -20,7 +13,7 @@ export default function ProfileCreateScreen(props) {
   function handlePress() {
     const { currentUser } = firebase.auth();
     const db = firebase.firestore();
-    const ref = db.collection(`users/${currentUser.uid}/profiles`);
+    const ref = db.collection(`home/users/profiles/userIds/${currentUser.uid}`);
     ref
       .add({
         Name: name,

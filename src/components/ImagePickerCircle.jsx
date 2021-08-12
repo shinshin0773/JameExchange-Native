@@ -35,8 +35,6 @@ export default function ImagePickerCircle(props) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
