@@ -63,7 +63,7 @@ export default function SignUpScreen(props) {
           textContentType="password" //端末からメールアドレス登録しているメールアドレスを取得できる
         />
 
-        <Button label="SignUp" onPress={handlePress} />
+        <Button label="新規登録" onPress={handlePress} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>登録したことある?</Text>
           <TouchableOpacity

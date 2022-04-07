@@ -6,6 +6,9 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 import firebase from "firebase";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import Icon from 'react-native-material-design';
 
 import TopScreen from "./src/screens/TopScreen";
 import PostDetailScreen from "./src/screens/PostDetailScreen";
@@ -15,7 +18,10 @@ import LogInScreen from "./src/screens/LogInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ProfileEditScreen from "./src/screens/ProfileEditScreen";
 import ProfileCreateScreen from "./src/screens/ProfileCreate";
-import BottomTab from "./src/components/BottomTab";
+
+// 1
+// 2
+// 3
 
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";

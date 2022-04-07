@@ -30,7 +30,9 @@ export default function PostCreateScreen(props) {
   const [title, setTitle] = useState("");
   const [group, setgroup] = useState("");
   const [intro, setIntro] = useState("");
+
   const [image, setImage] = useState(null);
+  const [imageUploadTime, setImageUploadTime] = useState(null);
 
   function handlePress() {
     const { currentUser } = firebase.auth(); //現在ログインしているユーザをcurrentuserとして抜き出せる
@@ -69,6 +71,18 @@ export default function PostCreateScreen(props) {
     })();
   }, []);
 
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      fetchUrl(currentUser.uid)
+    }
+  }, [imageUploadTime]);
+
+  async function fetchUrl(uid) {
+    const url = await firebase.storage().ref().child(`users/${uid}/profileImage`).getDownloadURL();
+    setImage(url);
+  }
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -77,12 +91,28 @@ export default function PostCreateScreen(props) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      setImage(result.uri);
+      uploadImage(result.uri, 'test-app-image')
+        .then(() => {
+          Alert.alert('Done!');
+          setImageUploadTime(String(new Date()));
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        })
     }
   };
+
+  async function uploadImage(uri,imageName) {
+    const {currentUser} = firebase.auth();
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const ref = firebase.storage().ref().child(`users/${currentUser.uid}/profileImage`);
+    return ref.put(blob);
+  }
+
+
+  //////////////////////////////////////////////////////////////////////
 
   return (
     <KeyboardSafeView style={styles.container} behavior="height">

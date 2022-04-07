@@ -5,6 +5,7 @@ import firebase from "firebase";
 import CircleButton from "../components/CircleButton";
 import PostItem from "../components/PostItem";
 import LogOutButton from "../components/LogOutButton";
+import ProfileNavigator from "../components/ProfileNavigator";
 import MainButton from "../components/mainButton";
 import Button from "../components/Button";
 import Loading from "../components/Loading";
@@ -17,6 +18,7 @@ export default function TopScreen(props) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogOutButton />, //ヘッダーの右にログアウトボタンを設定する
+      headerLeft: () => <ProfileNavigator /> //ヘッダーの左にプロフィール遷移ボタン
     });
   }, []);
 
@@ -81,12 +83,6 @@ export default function TopScreen(props) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <MainButton
-          label="プロフィール"
-          onPress={() => {
-            navigation.navigate("MyProfileScreen");
-          }}
-        />
         <View style={styles.TopListItem}>
           <View style={styles.TopListWrap}>
             {/* グループ名のタブのView */}
@@ -124,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "95%",
     alignItems: "center",
+    justifyContent: "center",
     borderBottomWidth: 1,
     borderColor: "rgba(0, 0, 0, 0.15)",
     marginRight: "auto",
@@ -155,7 +152,7 @@ const styles = StyleSheet.create({
   groupNameTitle: {
     position: "absolute",
     top: 28,
-    left: 43,
+    left: 30,
   },
   groupNameTitleText: {
     fontSize: 28,
