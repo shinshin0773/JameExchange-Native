@@ -23,6 +23,11 @@ import ProfileCreateScreen from "./src/screens/ProfileCreate";
 // 2
 // 3
 
+// 1
+// 2
+// 3
+// 4
+
 //firebaseのmy情報をenv.jsから取得する
 import { firebaseConfig } from "./env";
 
